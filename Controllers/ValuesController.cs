@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using coincidence.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace coincidence.Controllers
+namespace coincidence
 {
   [Route("api/[controller]")]
   [ApiController]
@@ -26,15 +27,18 @@ namespace coincidence.Controllers
 
     // GET api/values/5
     [HttpGet("{id}")]
-    public ActionResult<string> Get(id)
+    public ActionResult<string> Get(int id)
     {
       return "value";
     }
 
     // POST api/values
     [HttpPost]
-    public void Post([FromBody] string value)
+    public ActionResult<Coincidence> InsertData([FromBody]Coincidence insertion)
     {
+      context.Coincidence.Add(insertion);
+      context.SaveChanges();
+      return insertion;
     }
 
     // PUT api/values/5
