@@ -18,18 +18,30 @@ namespace coincidence
 
     private DatabaseContext context;
 
+    public int Id { get; private set; }
+
     // GET api/values
     [HttpGet]
-    public ActionResult<IEnumerable<string>> Get()
+    public ActionResult<IEnumerable<Coincidence>> GetAllResults()
     {
-      return new string[] { "value1", "value2" };
+      var Allresults = context.Coincidence.OrderByDescending(results => results.DateOrdered);
+
+      return Allresults.ToList();
     }
 
     // GET api/values/5
     [HttpGet("{id}")]
-    public ActionResult<string> Get(int id)
+    public ActionResult GetOneEntry(int id)
     {
-      return "value";
+      var OneResult = context.Coincidence.FirstOrDefault(r => r.Id == id);
+      if (OneResult == null)
+      {
+        return NotFound();
+      }
+      else
+      {
+        return Ok(OneResult);
+      }
     }
 
     // POST api/values
@@ -49,8 +61,13 @@ namespace coincidence
 
     // DELETE api/values/5
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public ActionResult<Coincidence> DeleteEntry([FromBody]Coincidence entry)
     {
+      var DeleteResult = context.Coincidence.FirstOrDefault(r => r.Id == Id);
+      context.Coincidence.Remove(entry);
+      context.SaveChanges();
+      return DeleteResult;
+
     }
   }
 }
