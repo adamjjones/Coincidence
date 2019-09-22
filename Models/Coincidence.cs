@@ -13,3 +13,4 @@ namespace coincidence.Models
     public DateTime DateOrdered { get; set; } = DateTime.Now;
   }
 }
+

@@ -29,7 +29,6 @@ namespace coincidence
       if (!optionsBuilder.IsConfigured)
       {
         var envConn = Environment.GetEnvironmentVariable("DATABASE_URL");
-#warning Be sure to update to your correct connection string to the point to the correct database
         var conn = "server=localhost;database=CoinShopdb";
         if (envConn != null)
         {
@@ -46,6 +45,8 @@ namespace coincidence
     }
 
     public DbSet<Coincidence> Coincidence { get; set; }
+    public DbSet<Locations> Locations { get; set; }
+
 
   }
 }

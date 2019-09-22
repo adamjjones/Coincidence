@@ -26,6 +26,8 @@ namespace coincidence.Migrations
 
                     b.Property<DateTime>("DateOrdered");
 
+                    b.Property<int?>("LocationsId");
+
                     b.Property<string>("Name");
 
                     b.Property<int>("NumberInStock");
@@ -38,7 +40,32 @@ namespace coincidence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LocationsId");
+
                     b.ToTable("Coincidence");
+                });
+
+            modelBuilder.Entity("coincidence.Models.Locations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("ManagerName");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("coincidence.Models.Coincidence", b =>
+                {
+                    b.HasOne("coincidence.Models.Locations")
+                        .WithMany("Coins")
+                        .HasForeignKey("LocationsId");
                 });
 #pragma warning restore 612, 618
         }

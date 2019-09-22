@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using coincidence.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace coincidence
 {
@@ -55,18 +56,21 @@ namespace coincidence
 
     // PUT api/values/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    public ActionResult<Coincidence> Update(int id, [FromBody]Coincidence newDetails)
     {
+      context.Entry(newDetails).State = EntityState.Modified;
+      context.SaveChanges();
+      return newDetails;
     }
 
     // DELETE api/values/5
     [HttpDelete("{id}")]
-    public ActionResult<Coincidence> DeleteEntry([FromBody]Coincidence entry)
+    public ActionResult<Coincidence> DeleteEntry(int id)
     {
-      var DeleteResult = context.Coincidence.FirstOrDefault(r => r.Id == Id);
-      context.Coincidence.Remove(entry);
+      var DeleteResult = context.Coincidence.FirstOrDefault(r => r.Id == id);
+      context.Coincidence.Remove(DeleteResult);
       context.SaveChanges();
-      return DeleteResult;
+      return Ok();
 
     }
   }
